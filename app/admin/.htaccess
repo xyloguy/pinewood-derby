@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Pinewood Derby Admin"
+AuthUserFile "/var/www/.htpasswd"
+require valid-user

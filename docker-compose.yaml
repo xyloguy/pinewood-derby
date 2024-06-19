@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    depends_on:
+      - db
+    restart: on-failure
+    volumes:
+      - ./app/:/var/www/html/
+      - ./.htpasswd:/var/www/.htpasswd
+    ports:
+      - "80:80"
+    environment:
+      PMA_HOST: db
+    networks:
+      - pinewood
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "1"
+      MYSQL_DATABASE: "pinewood"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "password"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - pinewood
+
+networks:
+  pinewood:
+
+volumes:
+  db_data:
