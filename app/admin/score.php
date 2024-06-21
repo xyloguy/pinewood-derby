@@ -57,12 +57,12 @@ if (count($current_heat)) {
     echo '</script>';
 }
 ?>
-
+<main>
     <!-- Index Racers -->
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
-                <table class="table table-bordered" id="results">
+                <table class="table table-bordered text-center text-muted" id="results">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -82,9 +82,9 @@ if (count($current_heat)) {
                     $options = ['1st', '2nd', '3rd', '4th', '5th', '6th'];
                     foreach($heats as $heat) {
                         $racers = $heat->cars();
-                        echo '<tr' . (($current_heat_num == $heat->id()) ? ' class="table-active"' : '') . ' id="row-heat-' . $heat->id() . '">';
+                        echo '<tr' . (($current_heat_num == $heat->id()) ? ' class="table-active text-dark"' : '') . ' id="row-heat-' . $heat->id() . '">';
                         echo '<form method="post" action="score.php">';
-                        echo '<th scope="row">';
+                        echo '<th scope="row" class="align-middle">';
                         echo '<input type="hidden" name="checksum[]" value="' . get_checksum('addresult') . '">';
                         echo '<input type="hidden" name="checksum[]" value="' . get_checksum('updateresult') . '">';
                         echo '<input type="hidden" name="checksum[]" value="' . get_checksum('clearresult') . '">';
@@ -94,8 +94,8 @@ if (count($current_heat)) {
                         echo'</th>';
                         $total_racers = count($racers);
                         foreach($racers as $racer) {
-                            echo '<td class="click-area">';
-                            echo '<div class="form-group text-center">';
+                            echo '<td class="click-area align-middle">';
+                            echo '<div class="form-group text-center pt-2 pb-2">';
                             $form_field_id = 'racer-' . $racer->id() . '-heat-' . $heat->id();
                             $result = Result::get_by_heat_and_racer($heat->id(), $racer->id());
                             $result_id = null;
@@ -107,8 +107,8 @@ if (count($current_heat)) {
                             echo '<input type="hidden" name="results[]" value="';
                             echo (!is_null($result_id) ? $result_id : '');
                             echo '">';
-                            echo '<label for="' . $form_field_id .'">Car #' . $racer->id() . "<br>" . $racer->name() . '</label>';
-                            echo '<select id="' . $form_field_id . '" class="custom-select custom-select-sm" name="points[]">';
+                            echo '<label for="' . $form_field_id .'"><h3>' . $racer->name() . '</h3><h1>#' . $racer->id() . '</h1></label>';
+                            echo '<select id="' . $form_field_id . '" class="custom-select custom-select-md" name="points[]">';
                             echo '<option value="0"></option>';
                             for($current_index=0, $current_points=$total_racers; $current_index < $total_racers; $current_index++, $current_points--) {
                                 $selected = (!is_null($result_points) && $result_points === $current_points) ? ' selected' : '';
@@ -125,19 +125,19 @@ if (count($current_heat)) {
                                 echo '<td>&nbsp;</td>';
                             }
                         }
-                        echo '<td>';
+                        echo '<td class="align-middle">';
                         echo '<div class="form-group">';
-                        echo '<label for="">&nbsp;</label><br>';
+                        echo '<nobr>';
                         if (count($heat->results())) {
-                            echo '<nobr>';
-                            echo '<button type="submit" name="updateresult" aria-label="Update" class="btn btn-success mr-2"><i class="bi-check-lg" aria-hidden="true"></i></button>';
-                            echo '<button type="submit" name="clearresult" aria-label="Delete" class="btn btn-danger mr-2" onclick="return confirm(\'You want to clear results for heat #' . $heat->id() . '\')"><i class="bi-arrow-counterclockwise" aria-hidden="true"></i></button>';
-                            echo '</nobr>';
+                            echo '<button type="submit" name="updateresult" aria-label="Update" class="btn btn-success m-1"><i class="bi-check-lg" aria-hidden="true"></i></button>';
+                            echo '<button type="submit" name="clearresult" aria-label="Delete" class="btn btn-danger m-1" onclick="return confirm(\'You want to clear results for heat #' . $heat->id() . '\')"><i class="bi-arrow-counterclockwise" aria-hidden="true"></i></button>';
+
                         } else {
-                            echo '<button type="submit" name="addresult" aria-label="Add" class="btn btn-primary mr-2"><i class="bi-plus-lg" aria-hidden="true"></i></button>';
-                            echo '<button type="submit" name="deleteheat" aria-label="Delete" class="btn btn-danger mr-2" onclick="return confirm(\'You want to DELETE heat #' . $heat->id() . '\')"><i class="bi-trash-fill" aria-hidden="true"></i></button>';
+                            echo '<button type="submit" name="addresult" aria-label="Add" class="btn btn-primary m-1"><i class="bi-plus-lg" aria-hidden="true"></i></button>';
+                            echo '<button type="submit" name="deleteheat" aria-label="Delete" class="btn btn-danger m-1" onclick="return confirm(\'You want to DELETE heat #' . $heat->id() . '\')"><i class="bi-trash-fill" aria-hidden="true"></i></button>';
 
                         }
+                        echo '</nobr>';
                         echo '</div>';
                         echo '</td>';
                         echo '</form>';
@@ -152,4 +152,5 @@ if (count($current_heat)) {
             </div>
         </div>
     </div>
+</main>
 <?php include_once("includes/footer.php");

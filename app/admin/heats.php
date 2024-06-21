@@ -1,4 +1,5 @@
 <?php include_once("includes/header.php");
+echo '<main class="container">';
 if (clean_post('generateheats')){
     if(
         !empty($_POST['racers'])
@@ -98,7 +99,9 @@ if ($count_groups == 0) {
                 <?php
                 $groups = Group::all();
                 echo '<div class="btn-group btn-group-toggle form-group" data-toggle="buttons">';
-                echo '<button class="btn btn-secondary border-dark" type="button" data-group="all">Select All</button>';
+                if (count($groups) > 1) {
+                    echo '<button class="btn btn-secondary border-dark" type="button" data-group="all">Select All</button>';
+                }
                 $largest_group = 4;
                 foreach ($groups as $group) {
                     $racers = $group->racers();
@@ -112,7 +115,7 @@ if ($count_groups == 0) {
                 echo '</div>';
                 ?>
                 <div class="form-group">
-                    <select multiple id="racers" name="racers[]" class="custom-select" size="<?= $largest_group + 1 ?>" aria-describedby="racers-help">
+                    <select multiple id="racers" name="racers[]" class="custom-select" size="<?= min($largest_group + 1, 10) ?>" aria-describedby="racers-help">
                         <?php
                         foreach($groups as $group){
                             $racers = $group->racers();
@@ -264,4 +267,5 @@ if ($count_groups == 0) {
         </div>
     </div>
 </div>
+</main>
 <?php include_once("includes/footer.php");

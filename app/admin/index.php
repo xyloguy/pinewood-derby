@@ -1,1 +1,1 @@
-<?php header('Location: results.php');
+<?php header('Location: score.php');

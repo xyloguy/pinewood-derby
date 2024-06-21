@@ -1,4 +1,5 @@
 <?php include_once("includes/header.php");
+echo '<main class="container">';
 if (clean_post('addracer')){
     if(
         !empty($_POST['name']) && !empty(trim($_POST['name']))
@@ -69,7 +70,7 @@ if (($count_groups = Group::count()) == 0) {
                 <input type="hidden" name="checksum" value="<?= get_checksum('addracer') ?>">
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" class="form-control">
+                    <input type="text" id="name" name="name" class="form-control autofocus">
                 </div>
                 <div class="form-group">
                     <label for="group">Group:</label>
@@ -152,4 +153,5 @@ if (($count_groups = Group::count()) == 0) {
             </div>
         </div>
     </div>
+</main>
 <?php include_once("includes/footer.php");

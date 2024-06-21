@@ -1,4 +1,5 @@
 <?php include_once("includes/header.php");
+echo '<main class="container">';
 if (clean_post('addgroup')){
     if(
         !empty($_POST['name']) && !empty(trim($_POST['name']))
@@ -57,7 +58,7 @@ if (clean_post('resetgroup')) {
                 <input type="hidden" name="checksum" value="<?= get_checksum('addgroup') ?>">
                 <div class="form-group">
                     <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" class="form-control">
+                    <input type="text" id="name" name="name" class="form-control autofocus">
                 </div>
                 <button type="submit" name="addgroup" class="btn btn-primary"><i class="bi-plus-lg"></i> Add Group</button>
             </form>
@@ -130,4 +131,5 @@ if (clean_post('resetgroup')) {
             </div>
         </div>
     </div>
+</main>
 <?php include_once("includes/footer.php");

@@ -33,9 +33,7 @@ include_once(dirname(__FILE__) . '/session.php');
     </div>
 </header>
 
-<main class="container">
-
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg container">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

@@ -1,5 +1,3 @@
-</main>
-
 <script src="/js/jquery-3.7.1.min.js"></script>
 <script src="/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -70,8 +68,6 @@
         });
 
         $("table#results td.click-area").on("click", function(e) {
-            e.preventDefault();
-
             if($(this).find('select').length !== 1) {
                 return;
             }
@@ -93,7 +89,8 @@
                 return;
             }
             $(id + " :not(:selected)").filter("[value='" + next + "']").prop('selected', true);
-        }).on("mouseover", function(){
+            tr.find('button[name="updateresult"').focus();
+        }).on("mouseover", function() {
             var c = "bg-info";
             $("td.click-area").removeClass(c).prop("role", "");
             if ($(this).find("select :selected").val() === '0') {
@@ -121,7 +118,7 @@
             });
         });
 
-
+        $(".autofocus").trigger("focus");
     });
 </script>
 </body>

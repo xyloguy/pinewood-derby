@@ -16,7 +16,7 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
                     <th scope="col">Name</th>
                     <th scope="col">Group</th>
                     <th scope="col">Ranking</th>
-                    <th scope="col">Heats</th>
+                    <?= $hide_racers_with_no_results ? '' : '<th scope="col">Heats</th>' ?>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,7 +34,7 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
                     foreach($racers as $racer) {
                         $bg = [" bg-primary", " bg-danger", " bg-warning"];
                         $class = (count($bg) >= $place) ? $bg[$place-1] : '';
-                        $display_rank = $rank;
+                        $display_rank = round($rank * 100, 0);
                         $display_place = $place;
                         if ($rank == '0.0') {
                             $display_rank = 'n/a';
@@ -48,7 +48,7 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
                             <td><?= $racer->name() ?></td>
                             <td><?= $racer->group()->name() ?></td>
                             <td><?= $display_rank ?></td>
-                            <td><?= $racer->count_results() ?>/<?= count($racer->heats()) ?></td>
+                            <?= $hide_racers_with_no_results ? '' : '<td>' . $racer->count_results() . '/' . count($racer->heats()) . '</td>' ?>
                         </tr>
 
                         <?php
@@ -57,7 +57,8 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
                 }
 
                 if (count($racers_with_rank) == 0) {
-                    echo '<tr><td colspan="6"><div class="alert alert-info"><strong>No racers have been created.</strong></div></td></tr>';
+                    $colspan = $hide_racers_with_no_results ? 5 : 6;
+                    echo '<tr><td colspan="' . $colspan . '"><div class="alert alert-info"><strong>No racers have been created.</strong></div></td></tr>';
                 }
                 ?>
                 </tbody>
