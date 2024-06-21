@@ -4,6 +4,7 @@ if (!isset($hide_racers_with_no_results)) {
     $hide_racers_with_no_results = false;
 }
 $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
+$total_groups = boolval(Group::all());
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -14,7 +15,7 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
                     <th scope="col">Place</th>
                     <th scope="col">Car #</th>
                     <th scope="col">Name</th>
-                    <th scope="col">Group</th>
+                    <?= $total_groups ? '<th scope="col">Group</th>' : '' ?>
                     <th scope="col">Ranking</th>
                     <?= $hide_racers_with_no_results ? '' : '<th scope="col">Heats</th>' ?>
                 </tr>
@@ -46,7 +47,7 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
                             <th scope="row"><?= $display_place ?></th>
                             <td><?= $racer->id() ?></td>
                             <td><?= $racer->name() ?></td>
-                            <td><?= $racer->group()->name() ?></td>
+                            <?= $total_groups ? '<td>' . $racer->group()->name() . '</td>' : '' ?>
                             <td><?= $display_rank ?></td>
                             <?= $hide_racers_with_no_results ? '' : '<td>' . $racer->count_results() . '/' . count($racer->heats()) . '</td>' ?>
                         </tr>
@@ -57,7 +58,13 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
                 }
 
                 if (count($racers_with_rank) == 0) {
-                    $colspan = $hide_racers_with_no_results ? 5 : 6;
+                    $colspan = 6;
+                    if ($hide_racers_with_no_results) {
+                        $colspan--;
+                    }
+                    if (!$total_groups) {
+                        $colspan--;
+                    }
                     echo '<tr><td colspan="' . $colspan . '"><div class="alert alert-info"><strong>No racers have been created.</strong></div></td></tr>';
                 }
                 ?>
