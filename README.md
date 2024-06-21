@@ -8,10 +8,24 @@
 
 ## To start the server:
 
-Simply pull the project and run `docker compose up -d`
+Simply pull the project and run `docker-compose up -d`
 and visit http://localhost/admin in your browser.
 
 
 ## To stop the server:
 
-run `docker compose down`
+run `docker-compose down`
+
+
+## To enable SSL support
+
+1. Generate Your Certificates
+2. Add your certificates to the `certs` folder as `certs/fullchain.pem` and `certs/privkey.pem`.
+3. Modify `docker-compose.yaml` uncommenting
+   ``` 
+   - ./ssl.conf:/etc/apache2/sites-enabled/000-default.conf
+   - ./certs/fullchain.pem:/var/www/fullchain.pem
+   - ./certs/privkey.pem:/var/www/privkey.pem
+   ```
+4. Modify `ssl.conf` to update `YOURDOMAIN` so that http->https redirection works.
+5. Restart the service (stop and start the service again).
