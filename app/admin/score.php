@@ -107,14 +107,14 @@ if (count($current_heat)) {
                             echo '<input type="hidden" name="results[]" value="';
                             echo (!is_null($result_id) ? $result_id : '');
                             echo '">';
-                            echo '<label for="' . $form_field_id .'"><h3>' . $racer->name() . '</h3><h1>#' . $racer->id() . '</h1></label>';
+                            echo '<label style="display:block;" for="' . $form_field_id .'"><h3>' . $racer->name() . '</h3><h1>#' . $racer->id() . '</h1>';
                             echo '<select id="' . $form_field_id . '" class="custom-select custom-select-md" name="points[]">';
                             echo '<option value="0"></option>';
                             for($current_index=0, $current_points=$total_racers; $current_index < $total_racers; $current_index++, $current_points--) {
                                 $selected = (!is_null($result_points) && $result_points === $current_points) ? ' selected' : '';
                                 echo '<option value="' . $current_points . '"' . $selected . '>' . $options[$current_index] . '</option>';
                             }
-                            echo '</select>';
+                            echo '</select></label>';
                             echo '</div>';
                             echo '</td>';
                             $current_points--;

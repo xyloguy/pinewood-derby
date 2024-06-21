@@ -47,11 +47,11 @@ $bg_map = [
 foreach ($heats as $heat) {
     if ($heat_index == 0) {
         echo '<header class="container-fluid bg-dark text-white py-3"><div class="container text-center">';
-            echo '<h1 id="head_h1"><a href="/admin/score.php">Current Heat ' . $heat->id() . '</a></h1>';
+            echo '<h1 id="head_h1"><a href="/heats.php">Current Heat ' . $heat->id() . '</a></h1>';
         echo '</div></header>';
     } else {
         echo '<header class="container-fluid bg-dark text-white py-1"><div class="container text-center">';
-            echo '<h3 id="head_h1">On Deck</h3>';
+            echo '<h3 id="head_h1"><a href="/heats.php">On Deck</a></h3>';
         echo '</div></header>';
     }
     echo '<div class="container-fluid">';
@@ -92,7 +92,7 @@ if (is_null($current_heat_num)) {
         if ($total_heats == 0) {
             echo '<h1 id="head_h1"><a href="/admin/heats.php">No Heats Found</a></h1>';
         } else {
-            echo '<h1 id="head_h1"><a href="/admin/results.php">Results</a></h1>';
+            echo '<h1 id="head_h1">Results</h1>';
         }
         echo '</div>';
     echo '</header>';
