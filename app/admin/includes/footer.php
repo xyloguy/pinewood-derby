@@ -69,10 +69,18 @@
             $("table#heats td[data-racer='" + c + "']").addClass('table-info');
         });
 
-        $("table#results td label").on("click", function() {
-            var f = $(this).attr('for');
-            var id = '#' + f;
-            var tr = $(id).parents('tr');
+        $("table#results td.click-area").on("click", function(e) {
+            e.preventDefault();
+
+            if($(this).find('select').length !== 1) {
+                return;
+            }
+            var select = $(this).find('select');
+            if (select.val() !== "0") {
+                return;
+            }
+            var id = '#' + select.attr("id");
+            var tr = $(this).parents('tr');
             var total_selects = tr.find('select').length;
             var total_selected = 0;
             tr.find('select :selected').each(function(){
@@ -85,6 +93,12 @@
                 return;
             }
             $(id + " :not(:selected)").filter("[value='" + next + "']").prop('selected', true);
+        }).on("mouseover", function(){
+            var c = "bg-info";
+            $("td.click-area").removeClass(c).prop("role", "");
+            if ($(this).find("select :selected").val() === '0') {
+                $(this).addClass(c).prop("role", "button");
+            }
         });
 
         $("#custom-heat select").on("change", function() {

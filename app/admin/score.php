@@ -49,8 +49,11 @@ $current_heat = Heat::current_heat(1);
 $current_heat_num = null;
 if (count($current_heat)) {
     $current_heat_num = $current_heat[0]->id();
+    $i = 'row-heat-' . $current_heat[0]->id();
     echo '<script>';
-    echo 'window.location = location + "#row-heat-' . $current_heat[0]->id() . '";';
+    echo 'if (!window.location.hash.includes("'.$i.'")) {';
+    echo 'window.location = location.pathname + "#'.$i.'";';
+    echo '}';
     echo '</script>';
 }
 ?>
@@ -91,8 +94,8 @@ if (count($current_heat)) {
                         echo'</th>';
                         $total_racers = count($racers);
                         foreach($racers as $racer) {
-                            echo '<td>';
-                            echo '<div class="form-group">';
+                            echo '<td class="click-area">';
+                            echo '<div class="form-group text-center">';
                             $form_field_id = 'racer-' . $racer->id() . '-heat-' . $heat->id();
                             $result = Result::get_by_heat_and_racer($heat->id(), $racer->id());
                             $result_id = null;
@@ -104,8 +107,8 @@ if (count($current_heat)) {
                             echo '<input type="hidden" name="results[]" value="';
                             echo (!is_null($result_id) ? $result_id : '');
                             echo '">';
-                            echo '<label for="' . $form_field_id .'">#' . $racer->id() . ": " . $racer->name() . '</label>';
-                            echo '<select id="' . $form_field_id . '" class="custom-select custom-select-lg" name="points[]">';
+                            echo '<label for="' . $form_field_id .'">Car #' . $racer->id() . "<br>" . $racer->name() . '</label>';
+                            echo '<select id="' . $form_field_id . '" class="custom-select custom-select-sm" name="points[]">';
                             echo '<option value="0"></option>';
                             for($current_index=0, $current_points=$total_racers; $current_index < $total_racers; $current_index++, $current_points--) {
                                 $selected = (!is_null($result_points) && $result_points === $current_points) ? ' selected' : '';

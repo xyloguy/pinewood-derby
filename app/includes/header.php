@@ -7,6 +7,7 @@ require_once(dirname(__FILE__). "/functions.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pinewood Derby Organizer</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="/css/bootstrap-icons/font/bootstrap-icons.min.css">
     <style>
     #head_h1 a{
