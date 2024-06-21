@@ -27,7 +27,7 @@ if (!isset($json)) {
 
 if ($current_heat_num == null && $total_heats != 0) {
     echo '<header class="container-fluid bg-dark text-white py-3"><div class="container text-center">';
-    echo '<h1 id="head_h1"><a href="/">Results</a></h1>';
+    echo '<h1 id="head_h1">Results</h1>';
     echo '</div></header>';
     $hide_racers_with_no_results = true;
     echo '<div class="container mt-2">';
@@ -36,7 +36,13 @@ if ($current_heat_num == null && $total_heats != 0) {
 } else {
 
 echo '<header class="container-fluid bg-dark text-white py-3"><div class="container text-center">';
-echo '<h1 id="head_h1"><a href="/"><span class="current_heat">Running Heat ' . $current_heat_num . '</span></a></h1>';
+if($current_heat_num != null) {
+    $header_text = 'Running Heat ' . $current_heat_num;
+} else {
+    $header_text = 'No Heats';
+}
+
+echo '<h1 id="head_h1"><span class="current_heat"></span>'.$header_text.'</h1>';
 echo '</div></header>';
 ?>
 <div class="row">
