@@ -9,8 +9,12 @@ services:
     volumes:
       - ./app/:/var/www/html/
       - ./htpasswd:/var/www/.htpasswd
+      - ./ssl.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./certs/fullchain.pem:/var/www/fullchain.pem
+      - ./certs/privkey.pem:/var/www/privkey.pem
     ports:
       - "80:80"
+      - "443:443"
     environment:
       PMA_HOST: db
     networks:
