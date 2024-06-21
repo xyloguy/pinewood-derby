@@ -60,7 +60,9 @@ if (clean_post('resetgroup')) {
                     <label for="name">Name:</label>
                     <input type="text" id="name" name="name" class="form-control autofocus">
                 </div>
-                <button type="submit" name="addgroup" class="btn btn-primary"><i class="bi-plus-lg"></i> Add Group</button>
+                <div class="form-group">
+                    <button type="submit" name="addgroup" class="btn btn-primary"><i class="bi-plus-lg"></i> Add Group</button>
+                </div>
             </form>
         </div>
 
@@ -74,7 +76,9 @@ if (clean_post('resetgroup')) {
                     <input id="confirm" type="text" name="confirm" class="form-control" aria-describedby="confirm-help">
                     <small id="confirm-help" class="form-text text-muted">Enter "reset" groups. You can only do this if there are no racers.</small>
                 </div>
-                <button type="submit" name="resetgroup" class="btn btn-outline-danger"<?= Racer::count() ? ' disabled="disabled"' : '' ?>><i class="bi-x-lg"></i> Reset Data</button>
+                <div class="form-group">
+                    <button type="submit" name="resetgroup" class="btn btn-outline-danger"<?= Racer::count() ? ' disabled="disabled"' : '' ?>><i class="bi-x-lg"></i> Reset Data</button>
+                </div>
             </form>
         </div>
     </div>
@@ -87,7 +91,7 @@ if (clean_post('resetgroup')) {
             <h2>Groups</h2>
             <div class="table-responsive">
                 <table class="table table-bordered">
-                    <thead class="thead-dark">
+                    <thead class="thead-dark table-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>

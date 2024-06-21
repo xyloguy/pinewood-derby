@@ -9,7 +9,7 @@ $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
     <div class="col-md-12">
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
-                <thead class="thead-dark">
+                <thead class="thead-dark table-dark">
                 <tr>
                     <th scope="col">Place</th>
                     <th scope="col">Car #</th>

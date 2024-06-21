@@ -115,7 +115,7 @@ if ($count_groups == 0) {
                 echo '</div>';
                 ?>
                 <div class="form-group">
-                    <select multiple id="racers" name="racers[]" class="custom-select" size="<?= min($largest_group + 1, 10) ?>" aria-describedby="racers-help">
+                    <select multiple id="racers" name="racers[]" class="custom-select form-select form-control" size="<?= min($largest_group + 1, 10) ?>" aria-describedby="racers-help">
                         <?php
                         foreach($groups as $group){
                             $racers = $group->racers();
@@ -134,7 +134,7 @@ if ($count_groups == 0) {
                 </div>
                 <div class="form-group">
                     <label for="rounds">Rounds:</label>
-                    <select id="rounds" name="rounds" class="custom-select" aria-describedby="rounds-help">
+                    <select id="rounds" name="rounds" class="custom-select form-select form-control" aria-describedby="rounds-help">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -150,7 +150,7 @@ if ($count_groups == 0) {
                 </div>
                 <div class="form-group">
                     <label for="lanes">Lanes:</label>
-                    <select id="lanes" name="lanes" class="custom-select" aria-describedby="lanes-help">
+                    <select id="lanes" name="lanes" class="custom-select form-select form-control" aria-describedby="lanes-help">
                         <option>2</option>
                         <option>3</option>
                         <option>4</option>
@@ -162,7 +162,9 @@ if ($count_groups == 0) {
                 </div>
             </div>
             <div class="alert alert-secondary show" id="heat-info">0 heats will be generated. Each car will race 0 times.</div>
-            <button type="submit" name="generateheats" class="btn btn-primary"<?= ($count_racers > 1) ? '' : ' disabled="disabled"' ?>><i class="bi-plus-lg"></i> Generate Heats</button>
+            <div class="form-group">
+                <button type="submit" name="generateheats" class="btn btn-primary"<?= ($count_racers > 1) ? '' : ' disabled="disabled"' ?>><i class="bi-plus-lg"></i> Generate Heats</button>
+            </div>
         </form>
     </div>
 
@@ -176,7 +178,7 @@ if ($count_groups == 0) {
             for($lane = 1; $lane <= 6; $lane++){
                 echo '<div class="form-group">';
                 echo '<label for="lane'.$lane.'">Lane '.$lane.':</label>';
-                echo '<select id="lane'.$lane.'" class="custom-select" name="racers[]">';
+                echo '<select id="lane'.$lane.'" class="custom-select form-select form-control" name="racers[]">';
                 echo '<option value=""></option>';
                 foreach($racers as $racer){
                     echo '<option value="'.$racer->id().'">#'.$racer->id().': '.$racer->name().' ('.$racer->group()->name().')</option>';
@@ -185,8 +187,9 @@ if ($count_groups == 0) {
                 echo '</div>';
             }
             ?>
-
-            <button type="submit" name="createheat" class="btn btn-primary"<?= ($count_racers > 1) ? '' : ' disabled="disabled"' ?>><i class="bi-plus-lg"></i> Create Custom Heat</button>
+            <div class="form-group">
+                <button type="submit" name="createheat" class="btn btn-primary"<?= ($count_racers > 1) ? '' : ' disabled="disabled"' ?>><i class="bi-plus-lg"></i> Create Custom Heat</button>
+            </div>
         </form>
     </div>
 </div>
@@ -217,7 +220,7 @@ if ($count_groups == 0) {
         <h2>Heats</h2>
         <div class="table-responsive">
             <table class="table table-hover table-bordered" id="heats">
-                <thead class="thead-dark">
+                <thead class="thead-dark table-dark">
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Lane 1</th>

@@ -74,7 +74,7 @@ if (($count_groups = Group::count()) == 0) {
                 </div>
                 <div class="form-group">
                     <label for="group">Group:</label>
-                    <select name="groupid" id="group" class="custom-select">
+                    <select name="groupid" id="group" class="custom-select form-select form-control">
                         <?php
                         $groups = Group::all();
                         foreach($groups as $group) {
@@ -83,7 +83,9 @@ if (($count_groups = Group::count()) == 0) {
                         ?>
                     </select>
                 </div>
-                <button type="submit" name="addracer" class="btn btn-primary"<?= ($count_groups ? '' : 'disabled="disabled"') ?>><i class="bi-plus-lg"></i> Add Racer</button>
+                <div class="form-group">
+                    <button type="submit" name="addracer" class="btn btn-primary"<?= ($count_groups ? '' : 'disabled="disabled"') ?>><i class="bi-plus-lg"></i> Add Racer</button>
+                </div>
             </form>
         </div>
 
@@ -96,7 +98,9 @@ if (($count_groups = Group::count()) == 0) {
                     <input id="confirm" type="text" name="confirm" class="form-control" aria-describedby="confirm-help">
                     <small id="confirm-help" class="form-text text-muted">Enter "reset" and submit to reset all racers, heats, and results.</small>
                 </div>
-                <button type="submit" name="resetracers" class="btn btn-outline-danger"><i class="bi-x-lg"></i> Reset Race Data</button>
+                <div class="form-group">
+                    <button type="submit" name="resetracers" class="btn btn-outline-danger"><i class="bi-x-lg"></i> Reset Race Data</button>
+                </div>
             </form>
         </div>
     </div>
@@ -109,7 +113,7 @@ if (($count_groups = Group::count()) == 0) {
             <h2>Racers</h2>
             <div class="table-responsive">
                 <table class="table table-bordered">
-                    <thead class="thead-dark">
+                    <thead class="thead-dark table-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
@@ -129,7 +133,7 @@ if (($count_groups = Group::count()) == 0) {
                                 echo '<input type="hidden" name="id" value="' . $racer->id() . '">';
                                 echo '<th scope="row">' . $racer->id() . '</th>';
                                 echo '<td class="form-group"><input type="text" name="name" value="' . $racer->name() .'" class="form-control"></td>';
-                                echo '<td class="form-group"><select name="groupid" class="custom-select">';
+                                echo '<td class="form-group"><select name="groupid" class="custom-select form-select form-control">';
                                 foreach($groups as $group) {
                                     $selected = ($group->id() == $racer->groupid()) ? ' selected="selected"' : '';
                                     echo '<option value="' . $group->id(). '"' . $selected . '>' . $group->name() . '</option>';

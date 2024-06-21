@@ -63,7 +63,7 @@ if (count($current_heat)) {
         <div class="col-md-12">
             <div class="table-responsive">
                 <table class="table table-bordered text-center text-muted" id="results">
-                    <thead class="thead-dark">
+                    <thead class="thead-dark table-dark">
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Lane 1</th>
@@ -108,7 +108,7 @@ if (count($current_heat)) {
                             echo (!is_null($result_id) ? $result_id : '');
                             echo '">';
                             echo '<label style="display:block;" for="' . $form_field_id .'"><h3>' . $racer->name() . '</h3><h1>#' . $racer->id() . '</h1>';
-                            echo '<select id="' . $form_field_id . '" class="custom-select custom-select-md" name="points[]">';
+                            echo '<select id="' . $form_field_id . '" class="custom-select custom-select-md form-select form-control" name="points[]">';
                             echo '<option value="0"></option>';
                             for($current_index=0, $current_points=$total_racers; $current_index < $total_racers; $current_index++, $current_points--) {
                                 $selected = (!is_null($result_points) && $result_points === $current_points) ? ' selected' : '';
