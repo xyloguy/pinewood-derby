@@ -4,7 +4,7 @@ if (!isset($hide_racers_with_no_results)) {
     $hide_racers_with_no_results = false;
 }
 $racers_with_rank = Result::racer_rankings($hide_racers_with_no_results);
-$total_groups = boolval(Group::all());
+$total_groups = boolval(Group::all() > 1);
 ?>
 <div class="row">
     <div class="col-md-12">
