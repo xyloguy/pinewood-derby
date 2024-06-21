@@ -38,18 +38,26 @@ if (clean_post('clearresult')) {
     }
 }
 
-$current_heat = Heat::current_heat();
-if (!is_null($current_heat)) {
+if (clean_post('deleteheat')) {
+    if (!empty($_POST['heatid']) && !empty(trim($_POST['heatid']))) {
+        $heatid = db()->real_escape_string($_POST['heatid']);
+        Heat::delete($heatid);
+    }
+}
+
+$current_heat = Heat::current_heat(1);
+$current_heat_num = null;
+if (count($current_heat)) {
+    $current_heat_num = $current_heat[0]->id();
     echo '<script>';
-    echo 'window.location = location + "#row-heat-' . $current_heat . '";';
+    echo 'window.location = location + "#row-heat-' . $current_heat[0]->id() . '";';
     echo '</script>';
 }
 ?>
 
     <!-- Index Racers -->
     <div class="row">
-        <div class="col-md-12 mt-lg-5">
-            <h2>Heats</h2>
+        <div class="col-md-12">
             <div class="table-responsive">
                 <table class="table table-bordered" id="results">
                     <thead class="thead-dark">
@@ -71,12 +79,13 @@ if (!is_null($current_heat)) {
                     $options = ['1st', '2nd', '3rd', '4th', '5th', '6th'];
                     foreach($heats as $heat) {
                         $racers = $heat->cars();
-                        echo '<tr' . ((Heat::current_heat() == $heat->id()) ? ' class="table-active"' : '') . ' id="row-heat-' . $heat->id() . '">';
+                        echo '<tr' . (($current_heat_num == $heat->id()) ? ' class="table-active"' : '') . ' id="row-heat-' . $heat->id() . '">';
                         echo '<form method="post" action="score.php">';
                         echo '<th scope="row">';
                         echo '<input type="hidden" name="checksum[]" value="' . get_checksum('addresult') . '">';
                         echo '<input type="hidden" name="checksum[]" value="' . get_checksum('updateresult') . '">';
                         echo '<input type="hidden" name="checksum[]" value="' . get_checksum('clearresult') . '">';
+                        echo '<input type="hidden" name="checksum[]" value="' . get_checksum('deleteheat') . '">';
                         echo '<input type="hidden" name="heatid" value="' . $heat->id() . '">';
                         echo  $heat->id();
                         echo'</th>';
@@ -123,6 +132,8 @@ if (!is_null($current_heat)) {
                             echo '</nobr>';
                         } else {
                             echo '<button type="submit" name="addresult" aria-label="Add" class="btn btn-primary mr-2"><i class="bi-plus-lg" aria-hidden="true"></i></button>';
+                            echo '<button type="submit" name="deleteheat" aria-label="Delete" class="btn btn-danger mr-2" onclick="return confirm(\'You want to DELETE heat #' . $heat->id() . '\')"><i class="bi-trash-fill" aria-hidden="true"></i></button>';
+
                         }
                         echo '</div>';
                         echo '</td>';

@@ -61,6 +61,13 @@ class Heat
         return $heats;
     }
 
+    public static function count() {
+        if ($result = db()->query("SELECT COUNT(*) FROM `heats`")) {
+            return $result->fetch_array()[0];
+        }
+        return 0;
+    }
+
     public function cars() {
         $racer_ids = explode(',', $this->racers);
         $racers = [];
@@ -74,12 +81,23 @@ class Heat
         return Result::all('heatid', $this->id());
     }
 
-    public static function current_heat() {
-        $result = db()->query("SELECT h.id FROM heats h LEFT JOIN results r ON h.id = r.heatid WHERE r.heatid IS NULL ORDER BY h.id ASC LIMIT 1");
-        if($row = $result->fetch_assoc()) {
-            return $row['id'];
+    public static function current_heat($limit = 1) {
+        if (is_numeric($limit)) {
+            $limit = intval($limit);
+        } else {
+            $limit = 1;
         }
-        return null;
+        $sql = db()->prepare("SELECT h.id, h.racers FROM heats h LEFT JOIN results r ON h.id = r.heatid WHERE r.heatid IS NULL ORDER BY h.id ASC LIMIT ?");
+        $sql->bind_param('i', $limit);
+        if($sql->execute()) {
+            $result = $sql->get_result();
+            $heats = [];
+            while($row = $result->fetch_array()) {
+                $heats[] = new Heat($row[0], $row[1]);
+            }
+            return $heats;
+        }
+        return [];
     }
 
     public static function delete($id) {

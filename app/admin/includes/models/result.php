@@ -94,6 +94,41 @@ class Result
         return Racer::get($this->racerid);
     }
 
+    public static function racer_rankings($hide_racers_with_no_results = false) {
+        $racers_with_rank = [];
+        $racers = Racer::all();
+        foreach ($racers as $racer) {
+            if(count($racer->heats()) == 0 or $racer->count_results() == 0){
+                if ($hide_racers_with_no_results) {
+                    continue;
+                }
+                $key = '0.0';
+                if(!array_key_exists($key, $racers_with_rank)){
+                    $racers_with_rank[$key] = [];
+                }
+                $racers_with_rank[$key][] = $racer;
+                continue;
+            }
+
+            $rank = strval(round($racer->ranking_value(), 2));
+            if (strlen($rank) == 1) {
+                $rank .= '.00';
+            }
+            while(strlen($rank) < 4) {
+                $rank .= "0";
+            }
+            $rank .= str_pad(intval(($racer->count_results() / count($racer->heats())) * 10), 2, "0", STR_PAD_LEFT);
+            $rank .= str_pad($racer->count_results(), 2, "0", STR_PAD_LEFT);
+            //$rank = $rank;
+            if(!array_key_exists($rank, $racers_with_rank)){
+                $racers_with_rank[$rank] = [];
+            }
+            $racers_with_rank[$rank][] = $racer;
+        }
+        krsort($racers_with_rank, SORT_NUMERIC);
+        return $racers_with_rank;
+    }
+
     public function point_percentage() {
         $results = Result::all('heatid', $this->heatid());
         if (count($results) > 0) {

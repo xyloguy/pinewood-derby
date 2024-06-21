@@ -1,7 +1,6 @@
 <?php
 require_once(dirname(__FILE__). "/functions.php");
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,18 +9,10 @@ require_once(dirname(__FILE__). "/functions.php");
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-icons/font/bootstrap-icons.min.css">
     <style>
-#head_h1 a{
-color: white !important;
-            text-decoration: none !important;
-        }
-
-        table th {
-    width: auto !important;
-        }
-
-        table#heats tr td.hover{
-            background-color:yellow;
-        }
+    #head_h1 a{
+        color: white !important;
+        text-decoration: none !important;
+    }
     </style>
 </head>
 <body>

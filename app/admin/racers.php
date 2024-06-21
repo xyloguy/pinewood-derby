@@ -55,6 +55,12 @@ if (clean_post('resetracers')) {
         }
     }
 }
+
+if (($count_groups = Group::count()) == 0) {
+    echo '<div class="alert alert-warning show">';
+    echo 'You must <a href="groups.php" class="alert-link">create a group</a> before you can create racers!';
+    echo '</div>';
+}
 ?>
     <div class="row">
         <div class="col-md-6 mb-md-5">
@@ -70,20 +76,13 @@ if (clean_post('resetracers')) {
                     <select name="groupid" id="group" class="custom-select">
                         <?php
                         $groups = Group::all();
-                        $disabled = 'disabled="disabled"';
                         foreach($groups as $group) {
-                            $disabled = '';
                             echo '<option value="' . $group->id() . '">' . $group->name() . '</option>';
                         }
                         ?>
                     </select>
                 </div>
-                <?php
-                if (count($groups) == 0) {
-                    echo '<div class="alert alert-warning">You must <a href="groups.php" class="alert-link">create a group</a>  first!</div>';
-                }
-                ?>
-                <button type="submit" name="addracer" class="btn btn-primary"<?= $disabled ?>><i class="bi-plus-lg"></i> Add Racer</button>
+                <button type="submit" name="addracer" class="btn btn-primary"<?= ($count_groups ? '' : 'disabled="disabled"') ?>><i class="bi-plus-lg"></i> Add Racer</button>
             </form>
         </div>
 

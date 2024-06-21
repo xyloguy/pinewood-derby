@@ -87,6 +87,21 @@ class Racer
         return $racers;
     }
 
+    public static function count($groupid = null) {
+        if (!is_null($groupid)) {
+            $groupid = intval($groupid);
+            $sql = db()->prepare("SELECT COUNT(*) FROM `racers` WHERE `groupid` = ?");
+            $sql->bind_param("i", $heatid);
+            if($sql->execute()) {
+                $result = $sql->get_result();
+                return $result->fetch_array()[0];
+            }
+        } elseif ($result = db()->query("SELECT COUNT(*) FROM `racers`")) {
+            return $result->fetch_array()[0];
+        }
+        return 0;
+    }
+
     public function group() {
         if ($this->groupid == null) {
             return null;

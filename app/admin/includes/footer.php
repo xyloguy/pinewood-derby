@@ -86,9 +86,29 @@
             }
             $(id + " :not(:selected)").filter("[value='" + next + "']").prop('selected', true);
         });
+
+        $("#custom-heat select").on("change", function() {
+            var options = $("#custom-heat option");
+            var values = options.filter(':selected').map(function(){
+                var value = $(this).val();
+                if (value !== '') {
+                    return value;
+                }
+            });
+            options.prop('disabled', false).show();
+            options.each(function(){
+                for (var i = 0; i < values.length; i++) {
+                    var value = values[i];
+                    if($(this).prop('selected')) { continue; }
+                    if($(this).prop("value") === value) {
+                        $(this).prop("disabled", true).hide();
+                    }
+                }
+            });
+        });
+
+
     });
-
-
 </script>
 </body>
 </html>

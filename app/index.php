@@ -1,26 +1,19 @@
 <?php
 include_once("includes/header.php");
-?>
+include_once("includes/ping.php");
 
-<header class="container-fluid bg-dark text-white py-3">
-    <div class="container text-center">
-        <h1 id="head_h1"><a href="/admin">Current Heat</a></h1>
-    </div>
-</header>
-
-
-<?php
-$current_heat = intval(Heat::current_heat() ? Heat::current_heat() : 0);
-$total_heats = count(Heat::all());
-
-$i = 0;
-$heats = [];
-while($current_heat <= $total_heats and $i < 3) {
-    $heat = Heat::get($current_heat + $i);
-    if ($heat) {
-        $heats[] = $heat;
+if (!isset($heats)) {
+    $heats = Heat::current_heat(3);
+}
+if (!isset($json)) {
+    $total_heats = count(Heat::all());
+    $current_heat_num = null;
+    if (count($heats)) {
+        $current_heat_num = $heats[0]->id();
     }
-    $i++;
+} else {
+    $total_heats = $json['total_heats'];
+    $current_heat_num = $json['current_heat'];
 }
 
 $heat_index = 0;
@@ -50,11 +43,30 @@ $bg_map = [
         ' border-info',
     ]
 ];
+
 foreach ($heats as $heat) {
+    if ($heat_index == 0) {
+        echo '<header class="container-fluid bg-dark text-white py-3"><div class="container text-center">';
+            echo '<h1 id="head_h1"><a href="/admin/score.php">Current Heat ' . $heat->id() . '</a></h1>';
+        echo '</div></header>';
+    } else {
+        echo '<header class="container-fluid bg-dark text-white py-1"><div class="container text-center">';
+            echo '<h3 id="head_h1">On Deck</h3>';
+        echo '</div></header>';
+    }
     echo '<div class="container-fluid">';
         echo '<div class="row">';
+            $divs = 0;
+            $cars = $heat->cars();
+            $total_cars = count($cars);
+            $remaining_cars = 6 - $total_cars;
+            $half = intdiv($remaining_cars, 2);
+            for($i = 0; $i < $half; $i++) {
+                echo '<div class="m-2 col-sm p-sm-2"></div>';
+                $divs++;
+            }
             $lane = 1;
-            foreach ($heat->cars() as $car) {
+            foreach ($cars as $car) {
                 $class = $bg_map[$heat_index][$lane - 1];
                 $style = ($lane == 1) ? ' style="font-size:1.3rem !important;"' : '';
                 echo '<div class="text-center border rounded m-2 col-sm p-sm-2'.$class.'"'.$style.'>';
@@ -63,22 +75,33 @@ foreach ($heats as $heat) {
                 echo '<h4>Lane ' . $lane . '</h4>';
                 echo '</div>';
                 $lane++;
+                $divs++;
+            }
+            while ($divs < 6){
+                echo '<div class="m-2 col-sm p-sm-2"></div>';
+                $divs++;
             }
         echo '</div>';
     echo '</div>';
-    if ($heat_index == 0) {
-?>
-        <header class="container-fluid bg-dark text-white py-3 mt-3">
-            <div class="container text-center">
-                <h1 id="head_h1">On Deck Heat</h1>
-            </div>
-        </header>
-<?php
-    }
     $heat_index++;
 }
-?>
 
-<?php
+if (is_null($current_heat_num)) {
+    echo '<header class="container-fluid bg-dark text-white py-3 sticky-top">';
+        echo '<div class="container text-center">';
+        if ($total_heats == 0) {
+            echo '<h1 id="head_h1"><a href="/admin/heats.php">No Heats Found</a></h1>';
+        } else {
+            echo '<h1 id="head_h1"><a href="/admin/results.php">Results</a></h1>';
+        }
+        echo '</div>';
+    echo '</header>';
+    if ($total_heats != 0) {
+        $hide_racers_with_no_results = true;
+        echo '<div class="container mt-2">';
+        include_once("includes/results_table.php");
+        echo '</div>';
+    }
+}
+
 include_once("includes/footer.php");
-?>

@@ -25,7 +25,7 @@ if (clean_post('updategroup')) {
 if (clean_post('deletegroup')) {
     if (!empty($_POST['id']) && !empty(trim($_POST['id']))) {
         $id = db()->real_escape_string($_POST['id']);
-        if (count(Racer::all($id)) == 0) {
+        if (Racer::count($id) == 0) {
             Group::delete($id);
         } else {
             echo '<div class="alert alert-warning autoclose fade show" data-dismiss="alert">';
@@ -73,14 +73,7 @@ if (clean_post('resetgroup')) {
                     <input id="confirm" type="text" name="confirm" class="form-control" aria-describedby="confirm-help">
                     <small id="confirm-help" class="form-text text-muted">Enter "reset" groups. You can only do this if there are no racers.</small>
                 </div>
-                <?php
-                $disabled = '';
-                $count = count(Racer::all());
-                if ($count != 0) {
-                    $disabled = ' disabled="disabled"';
-                }
-                ?>
-                <button type="submit" name="resetgroup" class="btn btn-outline-danger"<?= $disabled ?>><i class="bi-x-lg"></i> Reset Data</button>
+                <button type="submit" name="resetgroup" class="btn btn-outline-danger"<?= Racer::count() ? ' disabled="disabled"' : '' ?>><i class="bi-x-lg"></i> Reset Data</button>
             </form>
         </div>
     </div>
@@ -104,8 +97,9 @@ if (clean_post('resetgroup')) {
                     <tbody>
                     <?php
                     $groups = Group::all();
-                    $total = count($groups);
+                    $total = 0;
                     foreach($groups as $group) {
+                        $total++;
                         $racers = Racer::all($group->id());
                         $racers_in_group = count($racers);
                         echo '<tr>';

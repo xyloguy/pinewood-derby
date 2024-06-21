@@ -66,6 +66,13 @@ class Group
         return $groups;
     }
 
+    public static function count() {
+        if ($result = db()->query("SELECT COUNT(*) FROM `groups`")) {
+            return $result->fetch_array()[0];
+        }
+        return 0;
+    }
+
     public function racers() {
         if ($this->id == null) {
             return null;
