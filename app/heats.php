@@ -42,7 +42,7 @@ if($current_heat_num != null) {
     $header_text = 'No Heats';
 }
 
-echo '<h1 id="head_h1"><span class="current_heat"></span>'.$header_text.'</h1>';
+echo '<h1 id="head_h1"><span class="current_heat">'.$header_text.'</span></h1>';
 echo '</div></header>';
 ?>
 <div class="row">
